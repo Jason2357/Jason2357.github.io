@@ -1,0 +1,16 @@
+{
+"companyName": "Jason",
+"productName": "2DCharacterController",
+"productVersion": "0.1",
+"dataUrl": "Jason2357.github.io.data.unityweb",
+"wasmCodeUrl": "Jason2357.github.io.wasm.code.unityweb",
+"wasmFrameworkUrl": "Jason2357.github.io.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.2.15f1"
+}
