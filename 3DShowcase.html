@@ -70,6 +70,7 @@
 			},
 		);
 		
+		let mixer2;
 		let modelReady2 = false;
 		loader.load(
 			"models/King.gltf",
@@ -77,8 +78,8 @@
 				const king = gltf.scene;
 				king.position.setX(-1);
 
-				mixer = new THREE.AnimationMixer(king);
-				mixer.clipAction( gltf.animations[ 0 ] ).play();
+				mixer2 = new THREE.AnimationMixer(king);
+				mixer2.clipAction( gltf.animations[ 2 ] ).play();
 
 				scene.add(king);
 				modelReady2 = true;
@@ -92,8 +93,10 @@
 
 			cube.rotation.x += 0.01;
 			cube.rotation.y += 0.01;
-			if(modelReady && modelReady2)
+			if(modelReady && modelReady2){
 				mixer.update(clock.getDelta())
+				mixer2.update(clock.getDelta())
+			}
 			controls.update();
 
 			renderer.render(scene, camera);
