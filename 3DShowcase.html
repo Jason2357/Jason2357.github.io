@@ -53,23 +53,31 @@
 
 		const loader = new THREE.GLTFLoader();
 
+		let mixer;
+		const clock = new THREE.Clock();
+		let modelReady = false;
 		loader.load(
 			"models/Merchant.gltf",
 			function (gltf) {
 				const merchant = gltf.scene;
 				merchant.position.setX(2);
+				
+				mixer = new THREE.AnimationMixer(merchant);
+				mixer.clipAction( gltf.animations[ 0 ] ).play();
+
 				scene.add(merchant);
+				modelReady = true;
 			},
 		);
 		
-		loader.load(
-			"models/King.gltf",
-			function (gltf) {
-				const king = gltf.scene;
-				king.position.setX(-1);
-				scene.add(king);
-			},
-		);
+		// loader.load(
+		// 	"models/King.gltf",
+		// 	function (gltf) {
+		// 		const king = gltf.scene;
+		// 		king.position.setX(-1);
+		// 		scene.add(king);
+		// 	},
+		// );
 		
 		
 
@@ -78,7 +86,8 @@
 
 			cube.rotation.x += 0.01;
 			cube.rotation.y += 0.01;
-
+			if(modelReady)
+				mixer.update(clock.getDelta())
 			controls.update();
 
 			renderer.render(scene, camera);
