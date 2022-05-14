@@ -57,13 +57,19 @@
 			"models/Merchant.gltf",
 			function (gltf) {
 				const merchant = gltf.scene;
-				merchant.position.setX(5);
+				merchant.position.setX(2);
 				scene.add(merchant);
 			},
-
-
 		);
-
+		
+		loader.load(
+			"models/King.gltf",
+			function (gltf) {
+				const king = gltf.scene;
+				king.position.setX(-1);
+				scene.add(king);
+			},
+		);
 		
 		
 
