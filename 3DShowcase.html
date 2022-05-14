@@ -76,10 +76,10 @@
 			"models/King.gltf",
 			function (gltf) {
 				const king = gltf.scene;
-				king.position.setX(-1);
+				king.position.setX(-1.5);
 
 				mixer2 = new THREE.AnimationMixer(king);
-				mixer2.clipAction( gltf.animations[ 2 ] ).play();
+				mixer2.clipAction( gltf.animations[ 0 ] ).play();
 
 				scene.add(king);
 				modelReady2 = true;
