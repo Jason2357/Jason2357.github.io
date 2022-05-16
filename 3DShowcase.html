@@ -20,17 +20,17 @@
 
 	<!-- Header -->
 	<ul>
-		<li><a href="index.html">首頁</a></li>
+		<li><a href="index.html">Home</a></li>
 		<li><a href="3DShowcase.html">3D Showcase</a></li>
-		<li><a href="">Contact</a></li>
-		<li><a href="">About</a></li>
+		<li><a href="index.html">Contact</a></li>
+		<li><a href="index.html">About</a></li>
 	</ul>
 	<!-- Header end -->
 	<script type="module">
 
 
 		const scene = new THREE.Scene();
-		scene.background = new THREE.Color( 0xbfe3dd );
+		scene.background = new THREE.Color(0xbfe3dd);
 		const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 		const renderer = new THREE.WebGLRenderer();
@@ -40,7 +40,7 @@
 		const geometry = new THREE.BoxGeometry();
 		const material = new THREE.MeshBasicMaterial({ color: 0x1AA7FF });
 		const cube = new THREE.Mesh(geometry, material);
-		
+
 		scene.add(cube);
 
 		camera.position.z = 5;
@@ -61,15 +61,15 @@
 			function (gltf) {
 				const merchant = gltf.scene;
 				merchant.position.setX(2);
-				
+
 				mixer = new THREE.AnimationMixer(merchant);
-				mixer.clipAction( gltf.animations[ 0 ] ).play();
+				mixer.clipAction(gltf.animations[0]).play();
 
 				scene.add(merchant);
 				modelReady = true;
 			},
 		);
-		
+
 		let mixer2;
 		let modelReady2 = false;
 		loader.load(
@@ -79,21 +79,21 @@
 				king.position.setX(-1.5);
 
 				mixer2 = new THREE.AnimationMixer(king);
-				mixer2.clipAction( gltf.animations[ 0 ] ).play();
+				mixer2.clipAction(gltf.animations[0]).play();
 
 				scene.add(king);
 				modelReady2 = true;
 			},
 		);
-		
-		
+
+
 
 		function animate() {
 			requestAnimationFrame(animate);
 
 			cube.rotation.x += 0.01;
 			cube.rotation.y += 0.01;
-			if(modelReady && modelReady2){
+			if (modelReady && modelReady2) {
 				mixer.update(clock.getDelta())
 				mixer2.update(clock.getDelta())
 			}

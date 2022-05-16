@@ -4,36 +4,110 @@
 <head>
 	<title>Jason2357的網站</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+
 	<style>
-		
+		.collapsible {
+			background-color: #777;
+			color: white;
+			cursor: pointer;
+			padding: 18px;
+			width: 10%;
+			border: none;
+			text-align: left;
+			outline: none;
+			font-size: 15px;
+		}
+
+		.active,
+		.collapsible:hover {
+			background-color: #555;
+		}
+
+		.content {
+			padding: 0 18px;
+			overflow: hidden;
+			width: 10%;
+			border: none;
+			max-height: 0;
+			transition: max-height 0.2s ease-out;
+			background-color: #f1f1f1;
+		}
+
+		html,
+		body {
+			height: 100%;
+			margin: 0;
+		}
+
+		.footer {
+			height: 150px;
+			background-color: #333;
+
+		}
+
+		.wrapper {
+			min-height: calc(100% - 150px);
+			/*減去footer高度*/
+		}
 	</style>
 </head>
 
 <body>
-	<!-- Header -->
-	<ul>
-		<li><a href="index.html">首頁</a></li>
-		<li><a href="3DShowcase.html">3D Showcase</a></li>
-		<li><a href="">Contact</a></li>
-		<li><a href="">About</a></li>
-	</ul>
-	<!-- Header end -->
-	<h1>遊戲下載點</h1>
-	<h2>BearAdventure</h2>
-	<p>
-	<h3>v1.1.0 : <a href="release/BearAdventure_v1.1.0.exe">BearAdventure</a> </h3>
-	<h3>GamepadTest_version : <a href="release/BearAdcventure_gamepadTest.exe">BearAdventure</a> </h3>
-	<h3> <a href="https://docs.google.com/forms/d/1P_MwXDrd3E8hRETr9o3vHPDCvKRLJ7Zo5_wHHJnBcpU/edit">問卷</a> </h3>
-
-	</p>
+	<div class="wrapper">
+		<!-- Header -->
+		<ul>
+			<li><a href="index.html">Home</a></li>
+			<li><a href="3DShowcase.html">3D Showcase</a></li>
+			<li><a href="index.html">Contact</a></li>
+			<li><a href="index.html">About</a></li>
+		</ul>
+		<!-- Header end -->
+		<h1>首頁</h1>
 
 
-	<p>
-		<a href="htmlGame/Game1/game.html">2D project</a><br>
-		<a href="htmlGame/Game2/index.html">jumpking clone project</a><br>
-		<a href="htmlGame/ChangeColor/index.html">Change Color</a><br>
-	</p>
 
+		<button type="button" class="collapsible">2D project</button>
+
+		<div class="content">
+			<p>
+				<a href="htmlGame/Game1/game.html">2D platformer</a><br>
+				<a href="htmlGame/Game2/index.html">jumpking clone project</a><br>
+				<a href="htmlGame/ChangeColor/index.html">Change Color</a><br>
+			</p>
+		</div>
+		<br>
+		<button type="button" class="collapsible">3D project</button>
+		<div class="content">
+			<h2>BearAdventure</h2>
+			<p>Download links:</p>
+			<p>
+			v1.1.0 <br>
+			<a href="release/BearAdventure_v1.1.0.exe">BearAdventure</a>
+			GamepadTest_version <br>
+			<a href="release/BearAdcventure_gamepadTest.exe">BearAdventure</a>
+			</p>
+		</div>
+
+		<script>
+			var coll = document.getElementsByClassName("collapsible");
+			var i;
+
+			for (i = 0; i < coll.length; i++) {
+				coll[i].addEventListener("click", function () {
+					this.classList.toggle("active");
+					var content = this.nextElementSibling;
+					if (content.style.maxHeight) {
+						content.style.maxHeight = null;
+					} else {
+						content.style.maxHeight = content.scrollHeight + "px";
+					}
+				});
+			}
+		</script>
+	</div>
+	<footer class="footer">
+
+	</footer>
 </body>
 
 </html>
