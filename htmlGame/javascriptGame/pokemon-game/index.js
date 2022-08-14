@@ -279,14 +279,12 @@ function animate() {
 	if (battle.initiated) return
 
 	checkBattle(animationId);
-
-
 	playerControl();
 
 	
 
 }
-//animate()
+animate()
 
 
 
