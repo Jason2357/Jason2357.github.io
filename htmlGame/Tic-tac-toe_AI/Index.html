@@ -1,0 +1,449 @@
+<html>
+
+<head>
+  <title>Tic-Tac-Toe</title>
+  <html>
+
+  <head>
+    <title>Tic-Tac-Toe</title>
+    <style>
+      /* Style the game board */
+      .game-board {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-gap: 10px;
+        width: 500px;
+        height: 500px;
+        margin: auto;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+        background-color: rgb(83, 82, 78);
+      }
+
+      /* Style the individual squares on the game board */
+      .square {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 48px;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+        background-color: rgb(254, 227, 182);
+        transition: all 0.3s ease-in-out;
+      }
+
+      /* Style the player's symbols on the game board */
+      .square:hover {
+        transform: scale(1.1);
+      }
+
+      /* Style the message displayed when the game ends */
+      .message {
+        margin: 10px auto;
+        font-size: 48px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      /* Style the restart button */
+      .restart-button {
+        margin: 10px auto;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+        background-color: #0077ff;
+        color: white;
+        transition: all 0.3s ease-in-out;
+      }
+
+      /* Style the restart button when it is hovered over */
+      .restart-button:hover {
+        transform: scale(1.1);
+      }
+
+      body {
+        background-color: rgb(187, 169, 145);
+        overflow: hidden;
+      }
+
+      h1 {
+        font-family: Arial, sans-serif;
+        color: #333;
+        font-size: 50px;
+        text-align: center;
+      }
+
+      #game {
+        text-align: center;
+      }
+
+      #restart {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /*
+      .dot {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background-color: rgb(227, 205, 164);
+        border-radius: 50%;
+      }*/
+    </style>
+
+  </head>
+
+<body>
+  <h1 id="title">Tic-Tac-Toe</h1>
+
+  <!-- Create an empty game board -->
+  <div class="game-board">
+    <div class="square" onclick="makeMove(currentPlayer, 0, 0)"></div>
+    <div class="square" onclick="makeMove(currentPlayer, 0, 1)"></div>
+    <div class="square" onclick="makeMove(currentPlayer, 0, 2)"></div>
+    <div class="square" onclick="makeMove(currentPlayer, 1, 0)"></div>
+    <div class="square" onclick="makeMove(currentPlayer, 1, 1)"></div>
+    <div class="square" onclick="makeMove(currentPlayer, 1, 2)"></div>
+    <div class="square" onclick="makeMove(currentPlayer, 2, 0)"></div>
+    <div class="square" onclick="makeMove(currentPlayer, 2, 1)"></div>
+    <div class="square" onclick="makeMove(currentPlayer, 2, 2)"></div>
+  </div>
+
+  <!-- Display a message when the game ends -->
+  <div class="message"></div>
+
+  <!-- Create a restart button -->
+  <button class="restart-button" onclick="restartGame()">Restart</button>
+
+  <script>
+    // Create an empty 3x3 game board
+    let gameBoard = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
+    ];
+
+    // Keep track of which player's turn it is (X or O)
+    let currentPlayer = 'X';
+    // Set the initial value of the gameOver flag to false
+    let gameOver = false;
+    // Function to handle player moves
+    function makeMove(player, x, y) {
+
+      // Check if the game is over
+      if (gameOver) {
+        // If the game is over, do not allow any more moves
+        return;
+      }
+
+
+      // Only allow a move if the specified square is empty
+      if (gameBoard[x][y] === null) {
+        // Place player's symbol on the game board at the specified coordinates
+        gameBoard[x][y] = player;
+
+        // Update the square on the game board to show the player's symbol
+        let squares = document.querySelectorAll('.square');
+        squares[3 * x + y].innerHTML = player;
+
+        // Check if the player has won the game
+        if (checkWin(player)) {
+
+          // If the current player has won, set the gameOver flag to true
+          gameOver = true;
+
+          // If the player has won, display a message and end the game
+          let message = document.querySelector('.message');
+          message.innerHTML = '';
+          typeWriter(`Player ${player} wins!`, message);
+
+          // Create a firework animation to celebrate the player's win
+          let canvas = document.createElement('canvas');
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          document.body.appendChild(canvas);
+
+          let ctx = canvas.getContext('2d');
+          let particles = [];
+          let colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#607d8b'];
+
+          let gravity = 0.25;
+
+          // Create a particle with a random color, position, and velocity
+          function createParticle() {
+            let particle = {
+              color: colors[Math.floor(Math.random() * colors.length)],
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              vx: -0.5 + Math.random(),
+              vy: -10 + Math.random() * 10
+            }
+            particles.push(particle);
+          }
+
+          // Function to update the position of each particle in the firework
+          function updateParticles() {
+            for (let i = 0; i < particles.length; i++) {
+              let particle = particles[i];
+              particle.x += particle.vx;
+              particle.y += particle.vy;
+              particle.vy += gravity;
+
+              // If the particle has reached the bottom of the screen, remove it from the array of particles
+              if (particle.y > canvas.height) {
+                particles.splice(i, 1);
+                i--;
+              }
+            }
+          }
+
+          // Function to render the firework on the screen
+          function renderParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+              let particle = particles[i];
+              ctx.beginPath();
+              ctx.arc(particle.x, particle.y, 4, 0, 2 * Math.PI);
+              ctx.fillStyle = particle.color;
+              ctx.fill();
+            }
+          }
+
+          // Function to create and render the firework animation
+          function animate() {
+            createParticle();
+            updateParticles();
+            renderParticles();
+            requestAnimationFrame(animate);
+          }
+
+          // Start the firework animation
+          animate();
+
+          return;
+        }
+
+
+
+        // Check if the game board is full (i.e. no more moves are possible)
+        if (checkTie()) {
+          // If the game board is full, display a message and end the game
+          let message = document.querySelector('.message');
+          message.innerHTML = '';
+          typeWriter(`It's a tie!`, message);
+          return;
+        }
+
+        // Switch to the other player's turn
+        if (currentPlayer === 'X') {
+          currentPlayer = 'O';
+        } else {
+          currentPlayer = 'X';
+        }
+      }
+    }
+    // Function to check if the game has ended in a tie
+    function checkTie() {
+      // Loop through the game board and check if any squares are empty
+      for (let i = 0; i < gameBoard.length; i++) {
+        for (let j = 0; j < gameBoard[i].length; j++) {
+          if (gameBoard[i][j] === null) {
+            // If an empty square is found, return false (i.e. the game is not a tie)
+            return false;
+          }
+        }
+      }
+
+      // If no empty squares are found, return true (i.e. the game is a tie)
+      return true;
+    }
+
+    // Function to check if a player has won the game
+    function checkWin(player) {
+      // Check for horizontal wins
+      for (let i = 0; i < gameBoard.length; i++) {
+        if (gameBoard[i][0] === player && gameBoard[i][1] === player && gameBoard[i][2] === player) {
+          return true;
+        }
+      }
+
+      // Check for vertical wins
+      for (let i = 0; i < gameBoard[0].length; i++) {
+        if (gameBoard[0][i] === player && gameBoard[1][i] === player && gameBoard[2][i] === player) {
+          return true;
+        }
+      }
+
+      // Check for diagonal wins
+      if (gameBoard[0][0] === player && gameBoard[1][1] === player && gameBoard[2][2] === player) {
+        return true;
+      }
+      if (gameBoard[0][2] === player && gameBoard[1][1] === player && gameBoard[2][0] === player) {
+        return true;
+      }
+
+      // If no winning combinations are found, return false
+      return false;
+    }
+
+    // Function to simulate a typewriter effect on a given string of text
+    function typeWriter(text, element) {
+      // Loop through each character in the text string
+      for (let i = 0; i < text.length; i++) {
+        setTimeout(() => {
+          // Append the current character to the element
+          element.innerHTML += text.charAt(i);
+        }, 75 * i);
+      }
+    }
+
+
+    // Function to restart the game
+    function restartGame() {
+      // Reset the gameOver flag to false
+      gameOver = false;
+      // Reset the game board to an empty 3x3 grid
+      gameBoard = [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null]
+      ];
+
+      // Reset the current player to X
+      currentPlayer = 'X';
+
+      // Clear the game board and message display
+      let squares = document.querySelectorAll('.square');
+      squares.forEach((square) => {
+        square.innerHTML = '';
+      });
+      let message = document.querySelector('.message');
+      message.innerHTML = '';
+
+      // Stop the firework animation if it is currently running
+      let canvas = document.querySelector('canvas');
+      if (canvas) {
+        canvas.remove();
+      }
+    }
+
+    // Function to animate the title of the game
+    function animateTitle() {
+      // Get the title element
+      let title = document.getElementById('title');
+
+      // Set the initial text of the title to an empty string
+      title.textContent = '~ ';
+
+      // Set the initial index of the character to be added to the title to 0
+      let index = 0;
+
+      // Set the text of the title to be animated
+      let text = 'Tic-tac-toe ~';
+
+      // Set the interval at which the title will be updated (in milliseconds)
+      let interval = 50;
+
+      // Create a timer that will update the title periodically
+      let timer = setInterval(() => {
+        // Add the next character to the title
+        title.textContent += text[index];
+
+        // Increment the index of the character to be added
+        index++;
+
+        // Check if all the characters have been added to the title
+        if (index >= text.length) {
+          // Stop the timer
+          clearInterval(timer);
+        }
+      }, interval);
+    }
+
+    // Call the animateTitle() function when the page loads
+    window.onload = animateTitle;
+
+    /*
+    
+        // Create a canvas element
+    let canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.body.appendChild(canvas);
+    
+    let ctx = canvas.getContext('2d');
+    
+    // Create an array to store the dots
+    let dots = [];
+    
+    // Create a counter to track the number of frames that have elapsed
+    let frame = 0;
+    
+    // Function to create a dot with a random position and velocity
+    function createDot() {
+      // Only create a new dot every 10 frames (i.e. approximately once every 0.17 seconds)
+      if (frame % 10 === 0) {
+        let dot = {
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: -2 + Math.random() * 4,
+          vy: -2 + Math.random() * 4
+        }
+        dots.push(dot);
+      }
+    }
+    
+    // Function to update the position of each dot
+    function updateDots() {
+      for (let i = 0; i < dots.length; i++) {
+        let dot = dots[i];
+        dot.x += dot.vx;
+        dot.y += dot.vy;
+    
+        // If the dot has moved off the screen, remove it from the array of dots
+        if (dot.x < 0 || dot.x > canvas.width || dot.y < 0 || dot.y > canvas.height) {
+          dots.splice(i, 1);
+          i--;
+        }
+      }
+    }
+    
+    // Function to render the dots on the screen
+    function renderDots() {
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+      // Draw each dot on the canvas with a radius of 5 pixels
+      for (let i = 0; i < dots.length; i++) {
+        let dot = dots[i];
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, 100, 0, 2 * Math.PI);
+        ctx.fillStyle = 'rgb(255, 150, 0)';
+        ctx.fill();
+      }
+    }
+    
+    // Function to create and render the dots
+    function animate() {
+      // Increment the frame counter
+      frame++;
+      createDot();
+      updateDots();
+      renderDots();
+      requestAnimationFrame(animate);
+    }
+    
+    // Start the animation
+    animate();
+    */
+  </script>
+
+
+</body>
